@@ -1,10 +1,10 @@
 {
   "name": "nodejs_dashboard_api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "main.js",
   "type": "module",
   "scripts": {
-    "start": "tsc && node ./dist/index.js",
+    "start": "tsc && node ./dist/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ilya Ovodov",
