@@ -9,19 +9,20 @@ export abstract class BaseController {
 		this._router = Router();
 	}
 
-	get() {
+	get router() {
 		return this._router;
 	}
 
-	send<T>(res: Response, statusCode: number, message: string) {
-		res.sendStatus(statusCode).json(message);
+	public send<T>(res: Response, code: number, message: T) {
+		res.type('application/json')
+		return res.status(code).json(message);
 	}
 
-	ok<T>(res: Response, message: string) {
-		this.send<T>(res, 200, message);
+	public ok<T>(res: Response, message: T) {
+		return this.send<T>(res, 200, message);
 	}
 
-	created(res: Response) {
+	public created(res: Response) {
 		res.sendStatus(201);
 	}
 
