@@ -1,7 +1,7 @@
-import { Response, Router } from "express";
-import { IControllerRoute } from "./route.interface";
-import { injectable } from "inversify";
-import { ILogger } from "../logger/logger.interface";
+import { Response, Router } from 'express';
+import { IControllerRoute } from './route.interface.js';
+import { injectable } from 'inversify';
+import { ILogger } from '../logger/logger.interface.js';
 import 'reflect-metadata';
 
 @injectable()
@@ -12,20 +12,20 @@ export abstract class BaseController {
 		this._router = Router();
 	}
 
-	get router() {
+	get router(): Router {
 		return this._router;
 	}
 
-	public send<T>(res: Response, code: number, message: T) {
-		res.type('application/json')
+	public send<T>(res: Response, code: number, message: T): Response<any, Record<string, any>> {
+		res.type('application/json');
 		return res.status(code).json(message);
 	}
 
-	public ok<T>(res: Response, message: T) {
+	public ok<T>(res: Response, message: T): Response<any, Record<string, any>> {
 		return this.send<T>(res, 200, message);
 	}
 
-	public created(res: Response) {
+	public created(res: Response): void {
 		res.sendStatus(201);
 	}
 

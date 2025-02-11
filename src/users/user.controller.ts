@@ -1,12 +1,11 @@
-import { NextFunction, Request, Response } from "express";
-import { BaseController } from "../common/base.controller.js";
-import { LoggerService } from "../logger/logger.service.js";
-import { inject, injectable } from "inversify";
-import { TYPES } from "../types.js";
-import { ILogger } from "../logger/logger.interface.js";
+import { NextFunction, Request, Response } from 'express';
+import { BaseController } from '../common/base.controller.js';
+import { inject, injectable } from 'inversify';
+import { TYPES } from '../types.js';
+import { ILogger } from '../logger/logger.interface.js';
 import 'reflect-metadata';
-import { HttpError } from "../errors/http-error.class.js";
-import { IUserController } from "./user.controller.interface.js";
+import { HttpError } from '../errors/http-error.class.js';
+import { IUserController } from './user.controller.interface.js';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -16,21 +15,21 @@ export class UserController extends BaseController implements IUserController {
 			{
 				path: '/register',
 				method: 'post',
-				func: this.register
+				func: this.register,
 			},
 			{
 				path: '/login',
 				method: 'post',
-				func: this.login
-			}
+				func: this.login,
+			},
 		]);
 	}
 
-	public login(req: Request, res: Response, next: NextFunction) {
+	public login(req: Request, res: Response, next: NextFunction): void {
 		next(new HttpError(401, 'ошибка авторизации', 'login'));
 	}
 
-	public register(req: Request, res: Response, next: NextFunction) {
+	public register(req: Request, res: Response, next: NextFunction): void {
 		this.ok(res, 'register');
 	}
 }
