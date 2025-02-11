@@ -1,4 +1,4 @@
-import express, {Express} from 'express';
+import express, { Express } from 'express';
 import { Server } from 'http';
 import { ExceptionFilter } from './errors/exception.filter.js';
 import { ILogger } from './logger/logger.interface.js';
@@ -14,23 +14,23 @@ export class App {
 	port: number;
 
 	constructor(
-		@inject(TYPES.ILogger) private logger: ILogger, 
-		@inject(TYPES.UserController) private usersController: IUserController, 
-		@inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter
+		@inject(TYPES.ILogger) private logger: ILogger,
+		@inject(TYPES.UserController) private usersController: IUserController,
+		@inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter,
 	) {
 		this.app = express();
 		this.port = 8000;
 	}
 
-	private useRoutes() {
+	private useRoutes(): void {
 		this.app.use('/users', this.usersController.router);
 	}
 
-	private useExceptionFilters() {
+	private useExceptionFilters(): void {
 		this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
 	}
 
-	public async init() {
+	public async init(): Promise<void> {
 		this.useRoutes();
 		this.useExceptionFilters();
 

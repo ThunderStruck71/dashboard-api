@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "tsc && node ./dist/main.js",
+    "lint": "eslint ./src/**",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ilya Ovodov",
