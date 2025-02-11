@@ -6,6 +6,7 @@
   "scripts": {
     "start": "tsc && node ./dist/main.js",
     "lint": "eslint ./src/**",
+    "lint:fix": "eslint ./src/** --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ilya Ovodov",
