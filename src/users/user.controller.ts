@@ -9,7 +9,7 @@ import { HttpError } from "../errors/http-error.class.js";
 import { IUserController } from "./user.controller.interface.js";
 
 @injectable()
-export class UserController extends BaseController {
+export class UserController extends BaseController implements IUserController {
 	constructor(@inject(TYPES.ILogger) private loggerService: ILogger) {
 		super(loggerService);
 		this.bindRoutes([
