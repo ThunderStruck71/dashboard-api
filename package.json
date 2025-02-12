@@ -15,6 +15,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "express": "^4.21.2",
     "inversify": "^6.2.2",
@@ -22,6 +23,7 @@
     "tslog": "^4.9.3"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/eslint__eslintrc": "^2.1.2",
     "@types/express": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^8.24.0",

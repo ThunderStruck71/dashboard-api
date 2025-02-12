@@ -5,7 +5,7 @@ import { ILogger } from './logger/logger.interface.js';
 import { inject, injectable } from 'inversify';
 import { TYPES } from './types.js';
 import 'reflect-metadata';
-import { IUserController } from './users/user.controller.interface.js';
+import { IUsersController } from './users/users.controller.interface.js';
 import bodyParser from 'body-parser';
 
 @injectable()
@@ -16,7 +16,7 @@ export class App {
 
 	constructor(
 		@inject(TYPES.ILogger) private logger: ILogger,
-		@inject(TYPES.UserController) private usersController: IUserController,
+		@inject(TYPES.UsersController) private usersController: IUsersController,
 		@inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter,
 	) {
 		this.app = express();
