@@ -6,6 +6,7 @@
   "scripts": {
     "start": "tsc && node ./dist/main.js",
     "dev": "npx tsx watch src/main.ts",
+    "dev:inspect": "npx tsx --inspect-brk src/main.ts",
     "lint": "eslint ./src/**",
     "lint:fix": "eslint ./src/** --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
