@@ -6,6 +6,7 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from './types.js';
 import 'reflect-metadata';
 import { IUserController } from './users/user.controller.interface.js';
+import bodyParser from 'body-parser';
 
 @injectable()
 export class App {
@@ -22,6 +23,10 @@ export class App {
 		this.port = 8000;
 	}
 
+	private useBodyParser(): void {
+		this.app.use(bodyParser.json());
+	}
+
 	private useRoutes(): void {
 		this.app.use('/users', this.usersController.router);
 	}
@@ -31,6 +36,7 @@ export class App {
 	}
 
 	public async init(): Promise<void> {
+		this.useBodyParser();
 		this.useRoutes();
 		this.useExceptionFilters();
 
