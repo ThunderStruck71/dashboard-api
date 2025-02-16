@@ -8,15 +8,16 @@ import { HttpError } from '../errors/http-error.class.js';
 import { IUsersController } from './users.controller.interface.js';
 import { UserLoginDto } from './dto/user-login.dto.js';
 import { UserRegisterDto } from './dto/user-register.dto.js';
-import { User } from './user.entity.js';
-import { UsersService } from './users.service.js';
 import { ValidateMiddleware } from '../common/validate.middleware.js';
+import { IConfigService } from '../config/config.service.interface.js';
+import { IUsersService } from './users.service.interface.js';
 
 @injectable()
 export class UsersController extends BaseController implements IUsersController {
 	constructor(
 		@inject(TYPES.ILogger) private loggerService: ILogger,
-		@inject(TYPES.UsersService) private usersService: UsersService,
+		@inject(TYPES.UsersService) private usersService: IUsersService,
+		@inject(TYPES.ConfigService) private configService: IConfigService,
 	) {
 		super(loggerService);
 		this.bindRoutes([

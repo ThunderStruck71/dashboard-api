@@ -7,6 +7,8 @@ import { TYPES } from './types.js';
 import 'reflect-metadata';
 import { IUsersController } from './users/users.controller.interface.js';
 import bodyParser from 'body-parser';
+import { IExceptionFilter } from './errors/exception.filter.interface.js';
+import { IConfigService } from './config/config.service.interface.js';
 
 @injectable()
 export class App {
@@ -17,7 +19,8 @@ export class App {
 	constructor(
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.UsersController) private usersController: IUsersController,
-		@inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter,
+		@inject(TYPES.ExceptionFilter) private exceptionFilter: IExceptionFilter,
+		@inject(TYPES.ConfigService) private configService: IConfigService,
 	) {
 		this.app = express();
 		this.port = 8000;
