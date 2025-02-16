@@ -9,6 +9,7 @@
     "dev:inspect": "npx tsx --inspect-brk src/main.ts",
     "lint": "eslint ./src/**",
     "lint:fix": "eslint ./src/** --fix",
+    "generate": "prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ilya Ovodov",
