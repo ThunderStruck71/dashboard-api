@@ -1,19 +1,29 @@
 import { PrismaClient } from '@prisma/client';
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
+import { ILogger } from '../logger/logger.interface.js';
+import { TYPES } from '../types.js';
 
 @injectable()
 export class PrismaService {
 	client: PrismaClient;
 
-	constructor() {
+	constructor(@inject(TYPES.ILogger) private logger: ILogger) {
 		this.client = new PrismaClient();
 	}
 
 	async connect(): Promise<void> {
-		await this.client.$connect();
+		try {
+			await this.client.$connect();
+			this.logger.log('[PrismaService] Вы успешно подключились к базе данных');
+		} catch (e) {
+			if (e instanceof Error) {
+				this.logger.error('[PrismaService] Ошибка подключения к базе данных: ' + e.message);
+			}
+		}
 	}
 
 	async disconnect(): Promise<void> {
 		await this.client.$disconnect();
+		this.logger.log('[PrismaService] Вы отключились от базы данных');
 	}
 }
