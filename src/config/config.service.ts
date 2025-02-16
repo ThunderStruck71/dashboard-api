@@ -14,12 +14,12 @@ export class ConfigService implements IConfigService {
 		if (result.error) {
 			this.logger.error('[ConfigService] Не удалось прочитать файл .env или он отсутствует');
 		} else {
-			this.logger.log('ConfigService] Конфигурация .env загружена');
+			this.logger.log('[ConfigService] Конфигурация .env загружена');
 			this.config = result.parsed as DotenvParseOutput;
 		}
 	}
 
-	get<T extends string | number>(key: string): T {
-		return this.config[key] as T;
+	get(key: string): string {
+		return this.config[key];
 	}
 }
