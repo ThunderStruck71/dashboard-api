@@ -10,12 +10,15 @@ import { UserLoginDto } from './dto/user-login.dto.js';
 import { UserRegisterDto } from './dto/user-register.dto.js';
 import { ValidateMiddleware } from '../common/validate.middleware.js';
 import { IUsersService } from './users.service.interface.js';
+import jsonwebtoken from 'jsonwebtoken';
+import { IConfigService } from '../config/config.service.interface.js';
 
 @injectable()
 export class UsersController extends BaseController implements IUsersController {
 	constructor(
 		@inject(TYPES.ILogger) private loggerService: ILogger,
 		@inject(TYPES.UsersService) private usersService: IUsersService,
+		@inject(TYPES.ConfigService) private configService: IConfigService,
 	) {
 		super(loggerService);
 		this.bindRoutes([
@@ -45,7 +48,10 @@ export class UsersController extends BaseController implements IUsersController 
 			return next(new HttpError(401, 'Ошибка авторизации', 'login'));
 		}
 
-		this.ok(res, { status: 'success' });
+		const secret = this.configService.get('SECRET');
+		const jwt = await this.signJwt(body.email, secret);
+
+		this.ok(res, { access_token: jwt });
 	}
 
 	public async register(
@@ -59,5 +65,27 @@ export class UsersController extends BaseController implements IUsersController 
 			return next(new HttpError(422, 'Такой пользователь уже существует', 'register'));
 		}
 		this.ok(res, { email: result?.email, id: result.id });
+	}
+
+	private signJwt(email: string, secret: string): Promise<string> {
+		return new Promise<string>((resolve, reject) => {
+			jsonwebtoken.sign(
+				{
+					email,
+					iat: Math.floor(Date.now() / 1000),
+				},
+				secret,
+				{
+					algorithm: 'HS256',
+				},
+				(err, token) => {
+					if (err) {
+						reject(err);
+					}
+
+					resolve(token as string);
+				},
+			);
+		});
 	}
 }
