@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import { IExceptionFilter } from './errors/exception.filter.interface.js';
 import { IConfigService } from './config/config.service.interface.js';
 import { PrismaService } from './database/prisma.service.js';
+import { AuthMiddleware } from './common/auth.middleware.js';
 
 @injectable()
 export class App {
@@ -27,8 +28,11 @@ export class App {
 		this.port = 8000;
 	}
 
-	private useBodyParser(): void {
+	private useMiddlewares(): void {
 		this.app.use(bodyParser.json());
+
+		const authMiddleware = new AuthMiddleware(this.configService.get('SECRET'));
+		this.app.use(authMiddleware.execute.bind(authMiddleware));
 	}
 
 	private useRoutes(): void {
@@ -40,7 +44,7 @@ export class App {
 	}
 
 	public async init(): Promise<void> {
-		this.useBodyParser();
+		this.useMiddlewares();
 		this.useRoutes();
 		this.useExceptionFilters();
 		await this.prismaService.connect();
