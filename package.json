@@ -11,7 +11,7 @@
     "lint:fix": "eslint ./src/** --fix",
     "generate": "prisma generate",
     "test": "tsx --test ./src/**/*.test.*",
-    "test:e2e": "tsx --test ./tests/**"
+    "test:e2e": "tsx --test --experimental-test-coverage ./tests/**"
   },
   "author": "Ilya Ovodov",
   "license": "ISC",
