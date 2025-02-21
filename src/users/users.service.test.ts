@@ -24,6 +24,8 @@ let usersService: IUsersService;
 let usersRepository: IUsersRepository;
 let configService: IConfigService;
 
+let createdUser: UserModel | null;
+
 before(() => {
 	container.bind<IUsersService>(TYPES.UsersService).to(UsersService);
 	container.bind<IUsersRepository>(TYPES.UsersRepository).toConstantValue(UsersRepositoryMock);
@@ -47,7 +49,7 @@ describe('User service', () => {
 			}),
 		);
 
-		const createdUser = await usersService.createUser({
+		createdUser = await usersService.createUser({
 			email: 'i@i.ru',
 			password: '1',
 			name: 'Ivan',
@@ -55,5 +57,38 @@ describe('User service', () => {
 
 		assert.equal(createdUser?.id, 1);
 		assert.notEqual(createdUser?.password, 1);
+	});
+
+	test('Validate user with correct password', async () => {
+		mock.method(usersRepository, 'find').mock.mockImplementationOnce(async (email) => createdUser);
+
+		const validateUser = await usersService.validateUser({
+			email: 'i@i.ru',
+			password: '1',
+		});
+
+		assert.equal(validateUser, true);
+	});
+
+	test('Validate user with wrong password', async () => {
+		mock.method(usersRepository, 'find').mock.mockImplementationOnce(async (email) => createdUser);
+
+		const validateUser = await usersService.validateUser({
+			email: 'i@i.ru',
+			password: '2',
+		});
+
+		assert.equal(validateUser, false, 'Incorrect password');
+	});
+
+	test('Validate user with missing user', async () => {
+		mock.method(usersRepository, 'find').mock.mockImplementationOnce(async (email) => null);
+
+		const validateUser = await usersService.validateUser({
+			email: 'i@i.ru',
+			password: '1',
+		});
+
+		assert.equal(validateUser, false, 'User not found');
 	});
 });
